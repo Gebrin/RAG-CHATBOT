@@ -65,7 +65,7 @@ def handle_userinput(user_question):
             openai.api_key = 'XXXXXXXXXXXXX'
             # Keep repeating the following
             while True:
-                # Prompt user for input
+                # This store the user questio to message so that openai api can retrive the answer
                 message = user_question
 
                 # Exit program if user inputs "quit"
