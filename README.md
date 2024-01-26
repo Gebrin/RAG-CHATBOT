@@ -1,4 +1,4 @@
-**Query Answering Application using Streamlit,Mixtral 8x7B and OpenAI**
+**Query Answering Application using Streamlit,Mixtral 8x7B and OpenAI**   **RAG**
 
 Introduction:-
 This Python code represents a simple Query Answering Application using the Streamlit framework and Mixtral 8x7B and OpenAI's GPT-3.5-turbo model. 
