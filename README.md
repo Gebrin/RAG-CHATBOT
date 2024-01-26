@@ -30,7 +30,21 @@ Usage:-
   - Conversational History:
       The application maintains a conversation history to provide context-aware responses.
 
-How to Run
-    Install the required libraries using pip install streamlit, openai, PyPDF2, langchain.
-    Replace 'XXXXXXXXXXXXX' with your OpenAI API key and 'XXXXXXXXXXX' with your Hugging Face Hub API token.
-    Run the script using streamlit run main.py.
+How to Run:-
+    
+    - Install the required libraries using :- pip install streamlit,openai,PyPDF2,langchain.
+    
+    - Replace 'XXXXXXXXXXXXX' with your OpenAI API key and 'XXXXXXXXXXX' with your Hugging Face Hub API token.
+    
+    - Run the script using 'streamlit run main.py'.
+
+
+FrontEnd:-
+ - Streamlit and HTML,CSS
+
+BackEnd :-
+ - Python
+
+Models Used :-
+ - Mixtral 8x7B.
+ - OpenAI's GPT-3.5-turbo model.
