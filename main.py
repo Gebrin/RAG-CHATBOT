@@ -1,13 +1,13 @@
 import streamlit as st
-import openai
 from PyPDF2 import PdfReader
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from htmlTemplate import css, gpt_template, mixtral_template
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.llms import HuggingFaceHub
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.llms import HuggingFaceHub
 from langchain.chains import ConversationalRetrievalChain
+from transformers import pipeline
 
 
 # This function used to get the pdf document and get the text out of it
@@ -41,7 +41,7 @@ def get_vectorstore(text_chunks):
 
 def get_conversation_chain(vectorstore):
     repo_id = "mistralai/Mistral-7B-v0.1"
-    llm = HuggingFaceHub(huggingfacehub_api_token='XXXXXXXXXXX',
+    llm = HuggingFaceHub(huggingfacehub_api_token='XXXXXXXXXXXXXXXX',
                          repo_id=repo_id, model_kwargs={"temperature": 0.2, "max_new_tokens": 50})
 
     memory = ConversationBufferMemory(
@@ -58,37 +58,20 @@ def get_conversation_chain(vectorstore):
 def handle_userinput(user_question):
     response = st.session_state.conversation({'question': user_question})
     st.session_state.chat_history = response['chat_history']
-
+    messages = []
     for i, message in enumerate(st.session_state.chat_history):
         if i % 2 == 0:
-            messages = []
-            openai.api_key = 'XXXXXXXXXXXXX'
-            # Keep repeating the following
-            while True:
-                # This store the user questio to message so that openai api can retrive the answer
-                message = user_question
-
-                # Exit program if user inputs "quit"
-                if message.lower() == "quit":
-                    break
-
-                # Add each new message to the list
-                messages.append({"role": "user", "content": message})
-
-                # Request gpt-3.5-turbo for chat completion
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=messages
-                )
-
-                # Print the response and add it to the messages list
-                chat_message = response['choices'][0]['message']['content']
-                st.write(mixtral_template.replace(
-                    "{{MSG}}", chat_message), unsafe_allow_html=True)
-                messages.append({"role": "assistant", "content": chat_message})
+            pass
         else:
             st.write(gpt_template.replace(
                 "{{MSG}}", message.content), unsafe_allow_html=True)
+            summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+            summary = summarizer(message.content, max_length=230, min_length=60, do_sample=False)
+            my_string = [item['summary_text'] for item in summary]
+            summary_text = ' '.join(my_string)
+            st.write(mixtral_template.replace("{{MSG}}", summary_text), unsafe_allow_html=True)
+            messages.append({"role": "assistant", "content": summary_text})
+
 
 
 def main():
