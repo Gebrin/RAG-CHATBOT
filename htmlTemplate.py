@@ -25,14 +25,14 @@ css = '''
 }
 '''
 
-mixtral_template = '''
-<div class="chat-message bot">
-    <div class="message">{{MSG}}</div>
+gpt_template = '''
+<div class="chat-message user">   
+    <div class="message">Details after Parsing Documents :- <br><br> {{MSG}}</div>
 </div>
 '''
 
-gpt_template = '''
-<div class="chat-message user">   
-    <div class="message">{{MSG}}</div>
+mixtral_template = '''
+<div class="chat-message bot">
+    <div class="message">Summary :- <br><br> {{MSG}}</div>
 </div>
 '''
